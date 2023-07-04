@@ -28,7 +28,6 @@ def get_active_window_state() -> dict:
     try:
         active_window = get_active_window()
     except RuntimeError as e:
-        logger.warning(e)
         return {}
     meta = get_active_window_meta(active_window)
     rectangle_dict = dictify_rect(meta["rectangle"])
@@ -95,7 +94,7 @@ def get_active_window(depth=10, max_width=10, filename=None) -> Desktop:
         Desktop: The active window object.
     """
     app = pywinauto.application.Application(backend="uia").connect(active_only=True)
-    window = app.active()
+    window = app.top_window()
     return window
 
 
